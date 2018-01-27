@@ -24,19 +24,16 @@ export class ImageService {
   filetoCanvas = (fileElement) => {
     if (fileElement.target.files && fileElement.target.files[0]) {
       // create new FileReader object. Name it 'reader'
-      const reader = new FileReader();
+      const reader: FileReader = new FileReader();
       // create eventlistener: When load event of 'reader' is complete
-      reader.onload = function(e) {
-        const img = new Image();
-        img.addEventListener('load', function() {
-          context.drawImage(img, 0.0);
-        });
-        img.src = e.target.result;
-      };
+      reader.addEventListener('load', (evt: any) => {
+        console.log(evt.target);
+        this.image.src = evt.target.result;
+        this.image.addEventListener('load', this.resetImage);
+      });
       // set the src of this.image to file data and when data is loaded to this.image, call resetImage().
       // Use addEventListener instead of onload
       // some help: http://stackoverflow.com/questions/22255580/javascript-upload-image-file-and-draw-it-into-a-canvas
-
       // uncomment the following
       reader.readAsDataURL(fileElement.target.files[0]);
     }
@@ -44,13 +41,16 @@ export class ImageService {
 
   resetImage = () => {
     // set canvas width and height to be the same as of image
-
+    this.canvas.height = this.image.height;
+    this.canvas.width = this.image.width;
     // use drawImage method to draw image to canvas
-
+    this.context.drawImage(this.image, 0, 0, this.image.width,
+      this.image.height);
     // Uncomment the following
-    // this.imageData = this.context.getImageData(0, 0, this.canvas.width, this.canvas.height);
-    // this.pixels = this.imageData.data;
-    // this.numPixels = this.imageData.width * this.imageData.height;
+    this.imageData = this.context.getImageData(0, 0, this.canvas.width,
+      this.canvas.height);
+    this.pixels = this.imageData.data;
+    this.numPixels = this.imageData.width * this.imageData.height;
   };
 
   applyFilters = () => {
