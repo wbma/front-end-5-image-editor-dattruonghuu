@@ -1,14 +1,13 @@
 <h4>Color filter</h4>
-<div [ngStyle]="{width: '200px', height: '200px', backgroundColor: 'rgb('+red+', '+green+','+blue+')' }"></div>
 Red:
-<input type="range" min="0" max="255" [(ngModel)]="red">
+<input type="range" min="0" max="100" step="0.1" [(ngModel)]="red" (change)="this.imageService.applyFilters()">{{ red }}
 <br>
 Green:
-<input type="range" min="0" max="255" [(ngModel)]="green">
+<input type="range" min="0" max="100" step="0.1" [(ngModel)]="green" (change)="this.imageService.applyFilters()">{{ green }}
 <br>
 Blue:
-<input type="range" min="0" max="255" [(ngModel)]="blue">
+<input type="range" min="0" max="100" step="0.1" [(ngModel)]="blue" (change)="this.imageService.applyFilters()">{{ blue }}
 <br>
-
-
+Strength
 <input type="range" min="0" max="100" [(ngModel)]="strength" (change)="this.imageService.applyFilters()">{{ strength }}
+<br>
